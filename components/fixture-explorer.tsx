@@ -72,7 +72,7 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
   });
 
   return (
-    <section className="fixture-explorer">
+    <section className="fixture-explorer" id="match-centre">
       <div className="feed-toolbar">
         <div className="feed-mode">
           <button className={mode === "live" ? "active" : ""} onClick={() => { setMode("live"); setFilter("all"); }} type="button"><i className="status-dot" /> LIVE</button>
