@@ -14,7 +14,7 @@ export function EntityDetail({ kind, id }: Props) {
     let active = true;
     async function load() {
       setLoading(true);
-      const season = new Date().getMonth() >= 6 ? new Date().getFullYear() : new Date().getFullYear() - 1;
+      const season = 2024; // Free-plan archive season; check provider coverage before changing.
       const query = new URLSearchParams({ mode: kind, id });
       if (kind === "player") query.set("season", String(season));
       try {
