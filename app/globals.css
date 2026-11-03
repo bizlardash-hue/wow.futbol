@@ -449,3 +449,18 @@ button { font: inherit; }
   .date-control { width: 100%; }
   .date-control input { flex: 1; min-width: 0; }
 }
+
+
+.home-video-section { padding: 78px 0; background: #e9ede4; }
+.home-video-grid { display: grid; grid-template-columns: 1.25fr .75fr; gap: 45px; align-items: center; }
+.home-video-frame { width: 100%; aspect-ratio: 16 / 9; position: relative; background: #091b13; box-shadow: 0 22px 55px rgba(13,35,23,.16); }
+.home-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.home-video-copy h2 { margin: 18px 0 13px; color: var(--ink); font: 600 clamp(36px,4.2vw,52px)/1 var(--font-display); letter-spacing: -.07em; }
+.home-video-copy h2 em { color: #638c33; }
+.home-video-copy p { color: #657368; font-size: 12px; line-height: 1.8; margin-bottom: 22px; }
+.home-video-copy small { display: block; color: #87938a; font-size: 8px; font-weight: 800; letter-spacing: .11em; margin-top: 17px; }
+.tile-credit { color: rgba(255,255,255,.7) !important; font-size: 8px !important; letter-spacing: .02em !important; font-weight: 500 !important; }
+@media (max-width: 760px) {
+  .home-video-section { padding: 53px 0; }
+  .home-video-grid { grid-template-columns: 1fr; gap: 24px; }
+}
