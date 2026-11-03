@@ -48,9 +48,29 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ configured: true, message: "A fixture ID is required for match details." }, { status: 400 });
   }
 
+  const cacheSettings: Record<string, { env: string; fallback: number }> = {
+    fixtures: incoming.has("live")
+      ? { env: "API_LIVE_CACHE_SECONDS", fallback: 1800 }
+      : { env: "API_FIXTURE_CACHE_SECONDS", fallback: 21600 },
+    fixture: { env: "API_MATCH_CACHE_SECONDS", fallback: 1800 },
+    events: { env: "API_MATCH_CACHE_SECONDS", fallback: 1800 },
+    lineups: { env: "API_MATCH_CACHE_SECONDS", fallback: 1800 },
+    statistics: { env: "API_MATCH_CACHE_SECONDS", fallback: 1800 },
+    standings: { env: "API_STANDINGS_CACHE_SECONDS", fallback: 21600 },
+    teams: { env: "API_TEAMS_CACHE_SECONDS", fallback: 86400 },
+    team: { env: "API_TEAMS_CACHE_SECONDS", fallback: 86400 },
+    topscorers: { env: "API_PLAYER_RANKINGS_CACHE_SECONDS", fallback: 21600 },
+    topassists: { env: "API_PLAYER_RANKINGS_CACHE_SECONDS", fallback: 21600 },
+    player: { env: "API_PLAYER_CACHE_SECONDS", fallback: 86400 },
+    leagues: { env: "API_LEAGUES_CACHE_SECONDS", fallback: 86400 },
+  };
+  const cacheSetting = cacheSettings[mode] || { env: "API_CACHE_SECONDS", fallback: 21600 };
+  const configuredCache = Number(process.env[cacheSetting.env] || cacheSetting.fallback);
+  const cacheSeconds = Number.isFinite(configuredCache)
+    ? Math.max(60, Math.min(86400, configuredCache))
+    : cacheSetting.fallback;
+
   const url = `${BASE_URL}${endpoint}?${query.toString()}`;
-  const requestedCache = Number(process.env.API_CACHE_SECONDS || 900);
-  const cacheSeconds = Number.isFinite(requestedCache) ? Math.max(60, Math.min(3600, requestedCache)) : 900;
   try {
     const response = await fetch(url, {
       headers: { "x-apisports-key": key },
@@ -64,11 +84,23 @@ export async function GET(request: NextRequest) {
         errors: payload.errors || null,
       }, { status: response.status || 502 });
     }
+    const headerNumber = (name: string) => {
+      const value = response.headers.get(name);
+      return value === null ? null : Number(value);
+    };
+    const quota = {
+      dailyLimit: headerNumber("x-ratelimit-requests-limit"),
+      dailyRemaining: headerNumber("x-ratelimit-requests-remaining"),
+      minuteLimit: headerNumber("X-RateLimit-Limit"),
+      minuteRemaining: headerNumber("X-RateLimit-Remaining"),
+    };
+
     return NextResponse.json({
       configured: true,
       results: payload.results ?? 0,
       response: payload.response ?? [],
       paging: payload.paging ?? null,
+      quota,
       provider: "API-Football",
     }, {
       headers: { "Cache-Control": `s-maxage=${cacheSeconds}, stale-while-revalidate=60` },
