@@ -84,7 +84,7 @@ function ArrowIcon() {
 
 export default function Home() {
   return (
-    <main>
+    <main id="top">
       <div className="topline">
         <div className="container topline-inner">
           <span><i className="status-dot" /> YOUR GLOBAL FOOTBALL DESK</span>
@@ -103,9 +103,7 @@ export default function Home() {
           <a className="header-action" href="#scores">
             Explore football <ArrowIcon />
           </a>
-          <button className="menu-button" aria-label="Open navigation menu" type="button">
-            <span /><span />
-          </button>
+          <a className="menu-button" href="#scores" aria-label="Jump to match centre"><span /><span /></a>
         </div>
       </header>
 
@@ -169,7 +167,7 @@ export default function Home() {
             <span className="notice-icon">i</span>
             Preview interface — connect a licensed football data provider to activate verified fixtures, live scores and match events.
           </div>
-          <div className="match-grid">
+          <div className="match-grid" id="match-centre">
             {sampleMatches.map((match, index) => (
               <article className="match-card" key={match.home}>
                 <div className="match-card-top">
