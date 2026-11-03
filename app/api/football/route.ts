@@ -6,6 +6,7 @@ const endpoints: Record<string, string> = {
   fixture: "fixtures",
   standings: "standings",
   leagues: "leagues",
+  status: "status",
   teams: "teams",
   team: "teams",
   topscorers: "players/topscorers",
@@ -64,7 +65,7 @@ export async function GET(request: NextRequest) {
     player: { env: "API_PLAYER_CACHE_SECONDS", fallback: 86400 },
     leagues: { env: "API_LEAGUES_CACHE_SECONDS", fallback: 86400 },
   };
-  const cacheSetting = cacheSettings[mode] || { env: "API_CACHE_SECONDS", fallback: 21600 };
+  const cacheSetting = cacheSettings[mode] || (mode === "status" ? { env: "API_STATUS_CACHE_SECONDS", fallback: 60 } : { env: "API_CACHE_SECONDS", fallback: 21600 });
   const configuredCache = Number(process.env[cacheSetting.env] || cacheSetting.fallback);
   const cacheSeconds = Number.isFinite(configuredCache)
     ? Math.max(60, Math.min(86400, configuredCache))
@@ -94,6 +95,20 @@ export async function GET(request: NextRequest) {
       minuteLimit: headerNumber("X-RateLimit-Limit"),
       minuteRemaining: headerNumber("X-RateLimit-Remaining"),
     };
+
+    if (mode === "status") {
+      const statusResponse = Array.isArray(payload.response) ? payload.response[0] : payload.response;
+      const subscription = statusResponse?.subscription || {};
+      return NextResponse.json({
+        configured: true,
+        connected: true,
+        provider: "API-Football",
+        plan: subscription.plan || "Active account",
+        quota,
+      }, {
+        headers: { "Cache-Control": "no-store" },
+      });
+    }
 
     return NextResponse.json({
       configured: true,
