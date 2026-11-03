@@ -16,7 +16,7 @@ export default function CompetitionsPage() {
         <img src={item.image} alt={`${item.name} football atmosphere`} loading="lazy" />
         <span className="competition-tile-shade" />
         <span className="competition-tile-code">{item.code}</span>
-        <span className="competition-tile-copy"><small>{item.country} · {item.tag}</small><strong>{item.name}</strong><span>View competition ↗</span></span>
+        <span className="competition-tile-copy"><small>{item.country} · {item.tag}</small><strong>{item.name}</strong><span>View competition ↗</span><small className="tile-credit">PHOTO: {item.credit}</small></span>
       </a>)}
     </div>
     <p className="image-credit">Photography: Unsplash contributors. Images are used under the Unsplash License; see the linked photographer credits in the image sources.</p>
