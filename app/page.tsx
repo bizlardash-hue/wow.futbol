@@ -2,51 +2,13 @@ import { SiteHeader } from "../components/site-header";
 import { SiteFooter } from "../components/site-footer";
 import { FixtureExplorer } from "../components/fixture-explorer";
 
-const navigation = [
-  { label: "Scores", href: "#scores" },
-  { label: "Competitions", href: "#competitions" },
-  { label: "News", href: "#news" },
-  { label: "Clubs", href: "#clubs" },
-  { label: "Statistics", href: "#statistics" },
-];
-
-const sampleMatches = [
-  {
-    competition: "MATCH CENTRE PREVIEW",
-    home: "Northbridge",
-    homeCode: "NOR",
-    away: "Riverside",
-    awayCode: "RIV",
-    time: "19:45",
-    state: "UPCOMING",
-  },
-  {
-    competition: "MATCH CENTRE PREVIEW",
-    home: "Kingsport",
-    homeCode: "KIN",
-    away: "Eastvale",
-    awayCode: "EAS",
-    time: "20:00",
-    state: "UPCOMING",
-  },
-  {
-    competition: "MATCH CENTRE PREVIEW",
-    home: "Westford",
-    homeCode: "WES",
-    away: "Hillcrest",
-    awayCode: "HIL",
-    time: "20:30",
-    state: "UPCOMING",
-  },
-];
-
 const competitions = [
-  { name: "Premier League", region: "England", mark: "PL", tone: "lime" },
-  { name: "LaLiga", region: "Spain", mark: "LL", tone: "coral" },
-  { name: "Serie A", region: "Italy", mark: "SA", tone: "blue" },
-  { name: "Bundesliga", region: "Germany", mark: "BL", tone: "red" },
-  { name: "Ligue 1", region: "France", mark: "L1", tone: "violet" },
-  { name: "Champions League", region: "Europe", mark: "UCL", tone: "gold" },
+  { name: "Premier League", region: "England", mark: "PL", tone: "lime", slug: "premier-league" },
+  { name: "LaLiga", region: "Spain", mark: "LL", tone: "coral", slug: "laliga" },
+  { name: "Serie A", region: "Italy", mark: "SA", tone: "blue", slug: "serie-a" },
+  { name: "Bundesliga", region: "Germany", mark: "BL", tone: "red", slug: "bundesliga" },
+  { name: "Ligue 1", region: "France", mark: "L1", tone: "violet", slug: "ligue-1" },
+  { name: "Champions League", region: "Europe", mark: "UCL", tone: "gold", slug: "champions-league" },
 ];
 
 const stories = [
