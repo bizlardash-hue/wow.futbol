@@ -9,7 +9,13 @@ type Fixture = {
   goals: { home: number | null; away: number | null };
 };
 
-type ApiResult = { configured?: boolean; response?: Fixture[]; message?: string; errors?: unknown };
+type ApiResult = {
+  configured?: boolean;
+  response?: Fixture[];
+  message?: string;
+  errors?: unknown;
+  quota?: { dailyLimit: number | null; dailyRemaining: number | null; minuteLimit: number | null; minuteRemaining: number | null };
+};
 
 function localDate(date: Date) {
   const y = date.getFullYear();
@@ -35,6 +41,7 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
   const [message, setMessage] = useState("");
   const [configured, setConfigured] = useState<boolean | null>(null);
   const [updated, setUpdated] = useState("");
+  const [quota, setQuota] = useState<ApiResult["quota"]>(undefined);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -47,6 +54,7 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
       const response = await fetch(`/api/football?${params.toString()}`, { cache: "no-store" });
       const data = (await response.json()) as ApiResult;
       setConfigured(Boolean(data.configured));
+      setQuota(data.quota);
       if (!response.ok) {
         setMatches([]);
         setMessage(data.message || "Football data is not available yet.");
@@ -66,7 +74,7 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
 
   useEffect(() => {
     if (mode !== "live") return;
-    const interval = window.setInterval(() => { void load(); }, 15 * 60 * 1000);
+    const interval = window.setInterval(() => { void load(); }, 30 * 60 * 1000);
     return () => window.clearInterval(interval);
   }, [mode, load]);
 
@@ -120,7 +128,12 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
           </a>;
         })}
       </div>}
-      <div className="feed-updated">{updated ? `DATA CHECKED AT ${updated}` : "MATCH INFORMATION IS PROVIDED BY THE CONNECTED DATA PROVIDER"}</div>
+      <div className="feed-updated">
+        {quota?.dailyRemaining !== null && quota?.dailyRemaining !== undefined
+          ? `API QUOTA: ${quota.dailyRemaining} / ${quota.dailyLimit ?? 100} REQUESTS REMAINING TODAY · `
+          : ""}
+        {updated ? `DATA CHECKED AT ${updated} · LIVE FEED REFRESHES EVERY 30 MINUTES ON THE FREE-PLAN SETTING` : "MATCH INFORMATION IS PROVIDED BY THE CONNECTED DATA PROVIDER"}
+      </div>
     </section>
   );
 }
