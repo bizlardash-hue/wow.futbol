@@ -43,7 +43,7 @@ export function EntityDetail({ kind, id }: Props) {
     const venue = record.venue as Record<string, unknown> | undefined;
     return <div className="profile-panel">
       <div className="profile-identity">
-        {team?.logo && <img src={String(team.logo)} alt="" />}
+        {typeof team?.logo === "string" && <img src={team.logo} alt="" />}
         <div><span className="story-category">CLUB PROFILE</span><h2>{String(team?.name || "Club")}</h2><p>{String(team?.country || "Country not listed")}</p></div>
       </div>
       <div className="profile-facts">
@@ -65,7 +65,7 @@ export function EntityDetail({ kind, id }: Props) {
   const goals = first.goals as Record<string, unknown> | undefined;
   return <div className="profile-panel">
     <div className="profile-identity">
-      {player?.photo && <img src={String(player.photo)} alt="" />}
+      {typeof player?.photo === "string" && <img src={player.photo} alt="" />}
       <div><span className="story-category">PLAYER PROFILE</span><h2>{String(player?.name || "Player")}</h2><p>{String(team?.name || "Team data unavailable")}</p></div>
     </div>
     <div className="profile-facts">
