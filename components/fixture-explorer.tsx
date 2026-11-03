@@ -64,6 +64,12 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
 
   useEffect(() => { void load(); }, [load]);
 
+  useEffect(() => {
+    if (mode !== "live") return;
+    const interval = window.setInterval(() => { void load(); }, 15 * 60 * 1000);
+    return () => window.clearInterval(interval);
+  }, [mode, load]);
+
   const visible = matches.filter((match) => {
     if (filter === "live") return isLive(match.fixture.status.short);
     if (filter === "upcoming") return match.fixture.status.short === "NS";
