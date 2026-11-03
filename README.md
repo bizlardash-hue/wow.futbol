@@ -35,22 +35,36 @@ npm run dev
 
 Open http://localhost:3000.
 
-## Football data connection
+## Free-plan football data connection
 
-The site requests football data on the server using the API-Football service. The API key is never exposed in browser code.
+The API-Football Free plan is advertised as 100 requests per day and 10 requests per minute. The daily quota resets at 00:00 UTC and unused requests do not roll over. The provider also limits the seasons available on the Free plan. Its October 26, 2026 guide identifies the currently available Free-plan seasons as 2022, 2023 and 2024. Check your own dashboard and the coverage endpoint before relying on a competition/season.
 
-1. Create an API-Football account under the provider's terms.
-2. Copy the API key from the provider dashboard.
-3. In Vercel, open the project → Settings → Environment Variables.
-4. Add `API_FOOTBALL_KEY` with the key value for Preview and Production.
-5. Redeploy the project.
+1. In the API-Football dashboard, open Account → My Access and copy your API key.
+2. In Vercel, open this project → Settings → Environment Variables.
+3. Add `API_FOOTBALL_KEY` with the key value for Preview and Production.
+4. Redeploy the project. Do not paste the key into GitHub, frontend code, public issues or this chat.
 
-Optional environment setting:
+### Quota-aware caching
 
-- `API_CACHE_SECONDS=900` — shared server cache duration in seconds. The default is 900 seconds to reduce provider requests. The live page refreshes on the same interval.
-- If the account has enough request allowance for more frequent refreshes, the cache interval can be reduced in Vercel. Check the provider's current quota first.
+The app uses different server-side cache defaults so repeated page views share provider responses:
 
-Do not put real API keys in source code, README files, issues or public commits.
+- Live fixtures: 30 minutes
+- Date fixtures: 6 hours
+- Standings: 6 hours
+- Team directories: 24 hours
+- Scorer / assist rankings: 6 hours
+- Match details: 30 minutes
+- Player profiles and league metadata: 24 hours
+
+The live page refreshes every 30 minutes on the Free-plan setting. This is a prototype-friendly compromise, not second-by-second live coverage. The fixture page displays the daily quota remaining when the provider returns its rate-limit headers.
+
+You may override cache values in Vercel using the corresponding names in `.env.example`. Avoid shortening the live cache or enabling frequent widget refreshes on a 100-request/day plan. The provider's widgets also use your API quota when they make data requests; add caching if you choose to use them.
+
+The server-side proxy keeps the API key out of browser JavaScript. Keep this approach rather than placing the key in a widget's public configuration.
+
+## Season note
+
+The Free plan has a restricted season range. The league tables, team directory, rankings and profile lookups are currently pointed to archive season 2024 so they can be tested against the provider's published Free-plan season range. That is not the current 2026/27 season. Check the account dashboard's season access before changing the default. The live-score endpoint may have separate availability; verify it in the provider's Live Tester and the WOW.FUTBOL match centre.
 
 ## Deploy on Vercel
 
@@ -67,6 +81,6 @@ GitHub Actions runs a production build check for pushes to `main`.
 
 WOW.FUTBOL is an independent project. The interface and brand are original. Editorial articles are written for this project. The videos page embeds video published by official competition channels; video remains hosted by the original publisher.
 
-Photographs are sourced from Unsplash and credited on the relevant pages. Football data is supplied by the configured provider. The operator must ensure any use of third-party logos, photographs, player images, competition names and data complies with the applicable provider terms and intellectual-property rules.
+Photographs are sourced from Unsplash and credited on the relevant pages. Football data is supplied by the configured provider. The operator must ensure any use of third-party logos, photographs, player images, competition names and data complies with applicable provider terms and intellectual-property rules.
 
 The privacy policy, terms and contact details are starter drafts and must be reviewed and completed before the website is treated as a fully launched commercial service.
