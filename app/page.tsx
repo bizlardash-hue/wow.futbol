@@ -96,7 +96,7 @@ export default function Home() {
               <strong>WOW</strong>
               <span>FACTOR</span>
             </div>
-            <div className="visual-caption visual-caption-bottom">EST. FOR THE LOVE OF THE GAME</div>
+            <div className="visual-caption visual-caption-bottom">PHOTO: MARYAM TELLO / UNSPLASH</div>
           </div>
         </div>
         <div className="hero-bottom container">
@@ -178,6 +178,21 @@ export default function Home() {
             ))}
           </div>
           <p className="content-note">Original WOW.FUTBOL editorial features. Photography credits appear with each story.</p>
+        </div>
+      </section>
+
+      <section className="home-video-section">
+        <div className="container home-video-grid">
+          <div className="home-video-frame">
+            <iframe src="https://www.youtube-nocookie.com/embed/DLOUfAVwuXA" title="Official UEFA Champions League goal highlights" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen />
+          </div>
+          <div className="home-video-copy">
+            <div className="eyebrow"><span className="eyebrow-line" /> WATCH THE GAME</div>
+            <h2>Big moments.<br /><em>Replayed.</em></h2>
+            <p>Watch highlights embedded from official football competition channels. The original video stays hosted by its publisher.</p>
+            <a className="button button-primary" href="/videos">Explore videos <ArrowIcon /></a>
+            <small>FEATURED SOURCE: VERIFIED UEFA YOUTUBE CHANNEL</small>
+          </div>
         </div>
       </section>
 
