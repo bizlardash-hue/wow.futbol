@@ -7,6 +7,7 @@ const endpoints: Record<string, string> = {
   standings: "standings",
   leagues: "leagues",
   teams: "teams",
+  team: "teams",
   topscorers: "players/topscorers",
   topassists: "players/topassists",
   player: "players",
