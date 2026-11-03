@@ -12,7 +12,7 @@ export function SiteFooter() {
         </div>
         <div className="footer-column">
           <strong>FOLLOW THE GAME</strong>
-          <a href="/live">Live scores</a><a href="/fixtures">Fixtures & results</a><a href="/competitions">Competitions</a><a href="/statistics">Statistics</a>
+          <a href="/live">Live scores</a><a href="/fixtures">Fixtures & results</a><a href="/competitions">Competitions</a><a href="/statistics">Statistics</a><a href="/data-status">Data connection</a>
         </div>
         <div className="footer-column">
           <strong>DISCOVER</strong>
