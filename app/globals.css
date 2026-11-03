@@ -464,3 +464,32 @@ button { font: inherit; }
   .home-video-section { padding: 53px 0; }
   .home-video-grid { grid-template-columns: 1fr; gap: 24px; }
 }
+
+
+.api-status-panel { max-width: 900px; padding: 26px; background: #fff; border: 1px solid #e2e8df; }
+.api-status-heading { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.api-status-heading h2 { font: 600 26px var(--font-display); letter-spacing: -.05em; margin: 8px 0 0; }
+.api-status-missing, .api-status-ok, .api-status-error { display: flex; gap: 14px; align-items: flex-start; padding: 18px; margin-top: 22px; background: #f3f5ef; }
+.api-status-ok { background: #eff6e8; }
+.api-status-error { background: #fbf0ed; }
+.api-status-symbol { flex: 0 0 28px; width: 28px; height: 28px; display: grid; place-items: center; border-radius: 50%; background: #e2ead9; color: #567c31; font-weight: 900; }
+.api-status-error .api-status-symbol { background: #f2ded9; color: #9c493c; }
+.api-status-missing strong, .api-status-ok strong, .api-status-error strong { color: var(--ink); font: 600 15px var(--font-display); }
+.api-status-missing p, .api-status-ok p, .api-status-error p { color: #6b796f; font-size: 11px; line-height: 1.7; margin: 6px 0 0; }
+.api-status-missing code, .api-steps code { background: #e5eadf; padding: 3px 6px; color: #35512b; }
+.api-status-error small { display: block; color: #966258; margin-top: 8px; font-size: 9px; }
+.api-quota-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 9px; margin-top: 18px; }
+.api-quota-grid > div { display: flex; flex-direction: column; gap: 9px; background: #f2f5ee; padding: 14px; }
+.api-quota-grid small { color: #819087; font-size: 8px; font-weight: 800; letter-spacing: .1em; }
+.api-quota-grid strong { color: #263c2d; font: 700 22px var(--font-display); }
+.api-status-foot { border-top: 1px solid #edf0e9; padding-top: 14px; margin-top: 20px; color: #98a198; font-size: 8px; letter-spacing: .08em; line-height: 1.6; }
+.api-steps { margin-top: 20px; }
+.api-steps ol { color: #4f5f54; font-size: 12px; line-height: 1.9; padding-left: 19px; }
+.api-steps li { padding: 4px 0; }
+.api-steps a { color: #577d35; font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+.api-steps p { line-height: 1.8; }
+@media (max-width: 680px) {
+  .api-status-panel { padding: 18px; }
+  .api-status-heading { flex-direction: column; align-items: flex-start; }
+  .api-quota-grid { grid-template-columns: 1fr 1fr; }
+}
