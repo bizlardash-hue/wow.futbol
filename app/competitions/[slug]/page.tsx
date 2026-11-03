@@ -18,7 +18,7 @@ export default async function CompetitionPage({ params }: { params: Promise<{ sl
   const { slug } = await params;
   const competition = competitions[slug];
   if (!competition) notFound();
-  const season = new Date().getMonth() >= 6 ? new Date().getFullYear() : new Date().getFullYear() - 1;
+  const season = 2024; // Free-plan archive season; check provider coverage before changing.
 
   return <PageShell eyebrow={`COMPETITIONS / ${competition.region.toUpperCase()}`} title={competition.name} description={competition.intro}>
     <div className="competition-overview-grid">
