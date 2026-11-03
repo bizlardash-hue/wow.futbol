@@ -1,3 +1,7 @@
+import { SiteHeader } from "../components/site-header";
+import { SiteFooter } from "../components/site-footer";
+import { FixtureExplorer } from "../components/fixture-explorer";
+
 const navigation = [
   { label: "Scores", href: "#scores" },
   { label: "Competitions", href: "#competitions" },
@@ -47,25 +51,31 @@ const competitions = [
 
 const stories = [
   {
-    category: "THE BIG PICTURE",
-    title: "The details that decide a match",
-    summary: "Explore the moments, movement and decisions behind the final score.",
+    category: "TACTICAL NOTEBOOK",
+    title: "How to read the space in midfield",
+    summary: "Passing lanes, rotations and small decisions that shape control of a match.",
     style: "story-art-one",
     label: "TACTICS",
+    href: "/news/how-to-read-a-midfield",
+    image: "https://images.unsplash.com/photo-1695203063441-9042bcecbdf3?auto=format&fit=crop&fm=jpg&q=82&w=900",
   },
   {
     category: "DATA ROOM",
-    title: "Beyond goals: reading team performance",
-    summary: "A clearer look at the numbers that tell the story of a season.",
+    title: "What the league table does not tell you",
+    summary: "Points tell one part of the story. Performance data adds context.",
     style: "story-art-two",
     label: "ANALYSIS",
+    href: "/news/what-the-table-does-not-tell-you",
+    image: "https://images.unsplash.com/photo-1781152791898-945ca008c8ef?auto=format&fit=crop&fm=jpg&q=82&w=900",
   },
   {
-    category: "THE TOUCHLINE",
-    title: "The people shaping the modern game",
-    summary: "Profiles, perspectives and conversations from across football.",
+    category: "THE GAME",
+    title: "The rhythm of a matchday",
+    summary: "From warm-ups to the final whistle, explore the details of the occasion.",
     style: "story-art-three",
-    label: "PEOPLE",
+    label: "MATCHDAY",
+    href: "/news/the-rhythm-of-a-matchday",
+    image: "https://images.unsplash.com/photo-1711812176453-5b70a6f0a984?auto=format&fit=crop&fm=jpg&q=82&w=900",
   },
 ];
 
@@ -85,27 +95,7 @@ function ArrowIcon() {
 export default function Home() {
   return (
     <main id="top">
-      <div className="topline">
-        <div className="container topline-inner">
-          <span><i className="status-dot" /> YOUR GLOBAL FOOTBALL DESK</span>
-          <span className="topline-note">INDEPENDENT FOOTBALL. ONE PLACE.</span>
-        </div>
-      </div>
-
-      <header className="site-header">
-        <div className="container header-inner">
-          <BrandMark />
-          <nav className="desktop-nav" aria-label="Main navigation">
-            {navigation.map((item) => (
-              <a key={item.label} href={item.href}>{item.label}</a>
-            ))}
-          </nav>
-          <a className="header-action" href="#scores">
-            Explore football <ArrowIcon />
-          </a>
-          <a className="menu-button" href="#scores" aria-label="Jump to match centre"><span /><span /></a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="hero">
         <div className="hero-orbit hero-orbit-one" />
@@ -128,7 +118,9 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="hero-visual" aria-label="Decorative football-inspired graphic">
+          <div className="hero-visual" aria-label="Football in a floodlit stadium">
+            <img className="hero-photo" src="https://images.unsplash.com/photo-1781152791898-945ca008c8ef?auto=format&fit=crop&fm=jpg&q=85&w=1400" alt="Crowded stadium at night during a football match" />
+            <div className="hero-photo-shade" />
             <div className="visual-caption visual-caption-top">THE WORLD OF FOOTBALL</div>
             <div className="pitch-lines">
               <div className="pitch-midline" />
@@ -163,34 +155,7 @@ export default function Home() {
             </div>
             <a className="section-link" href="#match-centre">Open match centre <ArrowIcon /></a>
           </div>
-          <div className="data-notice">
-            <span className="notice-icon">i</span>
-            Preview interface — connect a licensed football data provider to activate verified fixtures, live scores and match events.
-          </div>
-          <div className="match-grid" id="match-centre">
-            {sampleMatches.map((match, index) => (
-              <article className="match-card" key={match.home}>
-                <div className="match-card-top">
-                  <span>{match.competition}</span>
-                  <span className="match-state">{match.state}</span>
-                </div>
-                <div className="match-teams">
-                  <div className="match-team">
-                    <span className={`team-monogram team-tone-${index + 1}`}>{match.homeCode}</span>
-                    <strong>{match.home}</strong>
-                  </div>
-                  <div className="match-vs">VS</div>
-                  <div className="match-team">
-                    <span className={`team-monogram team-tone-${index + 2}`}>{match.awayCode}</span>
-                    <strong>{match.away}</strong>
-                  </div>
-                </div>
-                <div className="match-card-bottom">
-                  <span>Kick-off</span><strong>{match.time}</strong>
-                </div>
-              </article>
-            ))}
-          </div>
+          <FixtureExplorer initialMode="live" />
         </div>
       </section>
 
@@ -235,21 +200,22 @@ export default function Home() {
           <div className="story-grid">
             {stories.map((story, index) => (
               <article className="story-card" key={story.title}>
-                <div className={`story-art ${story.style}`}>
+                <a href={story.href} className={`story-art ${story.style}`}>
+                  <img src={story.image} alt="" loading="lazy" />
                   <span className="story-art-label">{story.label}</span>
                   <span className="story-art-index">0{index + 1}</span>
                   <div className="story-art-shape" />
-                </div>
+                </a>
                 <div className="story-body">
                   <span className="story-category">{story.category}</span>
                   <h3>{story.title}</h3>
                   <p>{story.summary}</p>
-                  <a href="#news" aria-label={`Read more about ${story.title}`}>Read the story <ArrowIcon /></a>
+                  <a href={story.href} aria-label={`Read more about ${story.title}`}>Read the story <ArrowIcon /></a>
                 </div>
               </article>
             ))}
           </div>
-          <p className="content-note">Editorial examples for the design preview. Original articles and a publishing workflow will be added before launch.</p>
+          <p className="content-note">Original WOW.FUTBOL editorial features. Photography credits appear with each story.</p>
         </div>
       </section>
 
@@ -261,7 +227,7 @@ export default function Home() {
           </div>
           <div className="stats-band-copy">
             <p>Team trends. Player performances. League tables. A smarter way to explore the details that shape every season.</p>
-            <a className="button button-outline" href="#clubs">Explore the data room <ArrowIcon /></a>
+            <a className="button button-outline" href="/statistics">Explore the data room <ArrowIcon /></a>
           </div>
           <div className="stats-decoration">W<span>.</span></div>
         </div>
@@ -275,45 +241,12 @@ export default function Home() {
           </div>
           <div className="clubs-description">
             <p>Discover club histories, squad profiles, player journeys, form guides and season-by-season performance.</p>
-            <span className="coming-soon">CLUB & PLAYER DATABASE · COMING SOON</span>
+            <span className="coming-soon"><a href="/clubs">EXPLORE CLUBS ↗</a> &nbsp; <a href="/players">EXPLORE PLAYERS ↗</a></span>
           </div>
         </div>
       </section>
 
-      <footer className="site-footer">
-        <div className="container footer-main">
-          <div className="footer-brand-block">
-            <BrandMark />
-            <p>Football, without the noise.<br />Every match. Every moment.</p>
-          </div>
-          <div className="footer-column">
-            <strong>EXPLORE</strong>
-            <a href="#scores">Match centre</a>
-            <a href="#competitions">Competitions</a>
-            <a href="#news">Newsroom</a>
-            <a href="#statistics">Statistics</a>
-          </div>
-          <div className="footer-column">
-            <strong>THE PLATFORM</strong>
-            <a href="#clubs">Clubs & players</a>
-            <a href="#competitions">Leagues</a>
-            <a href="#news">Editorial</a>
-            <a href="#scores">Fixtures</a>
-          </div>
-          <div className="footer-column">
-            <strong>INFORMATION</strong>
-            <a href="#footer">About WOW.FUTBOL</a>
-            <a href="#footer">Contact</a>
-            <a href="#footer">Privacy policy</a>
-            <a href="#footer">Terms of use</a>
-          </div>
-        </div>
-        <div className="container footer-bottom" id="footer">
-          <span>© {new Date().getFullYear()} WOW.FUTBOL. ALL RIGHTS RESERVED.</span>
-          <span>INDEPENDENT FOOTBALL MEDIA</span>
-          <a href="#top">BACK TO TOP ↑</a>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
