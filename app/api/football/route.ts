@@ -10,9 +10,12 @@ const endpoints: Record<string, string> = {
   topscorers: "players/topscorers",
   topassists: "players/topassists",
   player: "players",
+  events: "fixtures/events",
+  lineups: "fixtures/lineups",
+  statistics: "fixtures/statistics",
 };
 
-const allowedParams = ["id", "ids", "live", "date", "league", "season", "team", "next", "last", "from", "to", "country", "search", "timezone"];
+const allowedParams = ["id", "ids", "live", "date", "league", "season", "team", "next", "last", "from", "to", "country", "search", "timezone", "fixture"];
 
 export async function GET(request: NextRequest) {
   const key = process.env.API_FOOTBALL_KEY;
@@ -40,11 +43,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ configured: true, message: "A fixture ID is required." }, { status: 400 });
   }
 
+  if (["events", "lineups", "statistics"].includes(mode) && !query.has("fixture")) {
+    return NextResponse.json({ configured: true, message: "A fixture ID is required for match details." }, { status: 400 });
+  }
+
   const url = `${BASE_URL}${endpoint}?${query.toString()}`;
+  const requestedCache = Number(process.env.API_CACHE_SECONDS || 900);
+  const cacheSeconds = Number.isFinite(requestedCache) ? Math.max(60, Math.min(3600, requestedCache)) : 900;
   try {
     const response = await fetch(url, {
       headers: { "x-apisports-key": key },
-      next: { revalidate: Number(process.env.API_CACHE_SECONDS || 300) },
+      next: { revalidate: cacheSeconds },
     });
     const payload = await response.json();
     if (!response.ok || (payload.errors && Object.keys(payload.errors).length > 0)) {
@@ -61,7 +70,7 @@ export async function GET(request: NextRequest) {
       paging: payload.paging ?? null,
       provider: "API-Football",
     }, {
-      headers: { "Cache-Control": "s-maxage=300, stale-while-revalidate=60" },
+      headers: { "Cache-Control": `s-maxage=${cacheSeconds}, stale-while-revalidate=60` },
     });
   } catch {
     return NextResponse.json({ configured: true, message: "Unable to reach the football data provider." }, { status: 502 });
