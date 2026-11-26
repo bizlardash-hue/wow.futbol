@@ -17,13 +17,13 @@ const endpoints: Record<string, string> = {
   statistics: "fixtures/statistics",
 };
 
-const allowedParams = ["id", "ids", "live", "date", "league", "season", "team", "next", "last", "from", "to", "country", "search", "timezone", "fixture"];
+const allowedParams = ["id", "ids", "live", "date", "league", "season", "team", "next", "last", "from", "to", "country", "search", "timezone", "fixture", "type", "current", "code", "page"];
 
 export async function GET(request: NextRequest) {
   const key = process.env.API_FOOTBALL_KEY;
   if (!key) {
     return NextResponse.json(
-      { configured: false, message: "Football data is not connected yet. Add API_FOOTBALL_KEY in Vercel Environment Variables." },
+      { configured: false, message: "Football data is not connected yet. Add the API_FOOTBALL_KEY secret in Cloudflare Worker settings." },
       { status: 503 }
     );
   }
