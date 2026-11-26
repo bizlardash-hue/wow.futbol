@@ -1,30 +1,27 @@
 # WOW.FUTBOL
 
-An independent international football platform built with Next.js.
+An independent, English-language international football platform built with Next.js, React and TypeScript.
 
-## Website sections
+## Product sections
 
-- Homepage and global navigation
-- Live scores and date-based fixtures
-- Competition directories and competition pages
-- Match centres with events, lineups and match statistics
-- Club directory and club profiles
-- Player rankings and player profiles
-- Original editorial features and article pages
+- Global live scores, fixtures and results
+- Competition directory and season hubs
+- Match centres: events, lineups and match statistics
+- Club directory, club profiles and squads
+- Player profiles, top scorers and assists
+- Football statistics and rankings
+- Original editorial features and news
 - Official-source video embeds
-- Statistics and rankings
 - About, contact, privacy and terms pages
 
-## Technology
+## Stack
 
-- Next.js 16.4.4
-- React 19
-- TypeScript
-- Responsive CSS
-- Vercel deployment
-- API-Football / API-Sports data proxy
+- Next.js 16 / React 19 / TypeScript
+- API-Football (API-Sports) server-side data proxy
+- Cloudflare Workers deployment using OpenNext
+- GitHub as the source repository
 
-## Run locally
+## Local development
 
 Requirements: Node.js 20.9 or newer.
 
@@ -35,18 +32,23 @@ npm run dev
 
 Open http://localhost:3000.
 
-## Free-plan football data connection
+For local Cloudflare Worker preview, copy `.dev.vars.example` to `.dev.vars`, enter your own API key, then run:
 
-The API-Football Free plan is advertised as 100 requests per day and 10 requests per minute. The daily quota resets at 00:00 UTC and unused requests do not roll over. The provider also limits the seasons available on the Free plan. Its October 26, 2026 guide identifies the currently available Free-plan seasons as 2022, 2023 and 2024. Check your own dashboard and the coverage endpoint before relying on a competition/season.
+```bash
+npm run preview
+```
 
-1. In the API-Football dashboard, open Account → My Access and copy your API key.
-2. In Vercel, open this project → Settings → Environment Variables.
-3. Add `API_FOOTBALL_KEY` with the key value for Preview and Production.
-4. Redeploy the project. Do not paste the key into GitHub, frontend code, public issues or this chat.
+Never commit `.env`, `.dev.vars`, or real API credentials.
 
-### Quota-aware caching
+## Football data provider
 
-The app uses different server-side cache defaults so repeated page views share provider responses:
+The server-side route `/api/football` proxies requests to API-Football. The API key must remain a server-side secret named `API_FOOTBALL_KEY`. Do not add it to client-side code, `NEXT_PUBLIC_*` variables, GitHub, public issues or chat messages.
+
+The provider's competition catalogue and available seasons vary by subscription and coverage. Check the API-Football account dashboard and the provider's coverage data before assuming a particular season or competition has full fixtures, standings, lineups or statistics.
+
+### Request-conscious caching
+
+The API proxy uses configurable cache defaults to avoid spending the provider quota on repeated page views:
 
 - Live fixtures: 30 minutes
 - Date fixtures: 6 hours
@@ -56,31 +58,42 @@ The app uses different server-side cache defaults so repeated page views share p
 - Match details: 30 minutes
 - Player profiles and league metadata: 24 hours
 
-The live page refreshes every 30 minutes on the Free-plan setting. This is a prototype-friendly compromise, not second-by-second live coverage. The fixture page displays the daily quota remaining when the provider returns its rate-limit headers.
+These are conservative defaults. Do not shorten them or add frequent automatic refreshes unless the API subscription supports the additional request volume.
 
-You may override cache values in Vercel using the corresponding names in `.env.example`. Avoid shortening the live cache or enabling frequent widget refreshes on a 100-request/day plan. The provider's widgets also use your API quota when they make data requests; add caching if you choose to use them.
+## Deploy on Cloudflare Workers
 
-The server-side proxy keeps the API key out of browser JavaScript. Keep this approach rather than placing the key in a widget's public configuration.
+This repository uses the OpenNext Cloudflare adapter. It is a Next.js application, not a static Vite site.
 
-## Season note
+Cloudflare Workers Builds settings:
 
-The Free plan has a restricted season range. The league tables, team directory, rankings and profile lookups are currently pointed to archive season 2024 so they can be tested against the provider's published Free-plan season range. That is not the current 2026/27 season. Check the account dashboard's season access before changing the default. The live-score endpoint may have separate availability; verify it in the provider's Live Tester and the WOW.FUTBOL match centre.
+- Production branch: `main`
+- Root directory: `/`
+- Build command: `npx opennextjs-cloudflare build`
+- Deploy command: `npx opennextjs-cloudflare deploy --keep-vars`
 
-## Deploy on Vercel
+The worker configuration is in `wrangler.jsonc`. The build output in `.open-next` is generated during deployment and must not be committed.
 
-1. Sign in to Vercel.
-2. Select **Add New → Project**.
-3. Import `bizlardash-hue/wow.futbol` from GitHub.
-4. Keep the detected Next.js framework preset and default root directory.
-5. Deploy.
-6. Add `wow.futbol` under Project Settings → Domains and follow the DNS instructions Vercel displays.
+### Add the API secret
 
-GitHub Actions runs a production build check for pushes to `main`.
+In Cloudflare Dashboard:
+
+1. Open **Workers & Pages** and select the `wow-futbol` Worker.
+2. Open **Settings → Variables and Secrets** (the label may vary).
+3. Add a secret named `API_FOOTBALL_KEY` and paste the newly generated API-Football key as its value.
+4. Save and deploy again if Cloudflare requests it.
+
+If using Workers Builds, add the variable to the production runtime environment. Do not expose it as a public variable. The application reads it on the server using `process.env.API_FOOTBALL_KEY`.
+
+### Deploy commands
+
+```bash
+npm run deploy
+```
+
+For dashboard-based Git deployments, use the separate build and deploy commands above. Keep the Cloudflare runtime secret when deploying new versions.
 
 ## Content, media and rights
 
-WOW.FUTBOL is an independent project. The interface and brand are original. Editorial articles are written for this project. The videos page embeds video published by official competition channels; video remains hosted by the original publisher.
+WOW.FUTBOL is an independent project. The brand and interface are original. Football data is supplied by the configured provider. Video embeds remain hosted by their original publishers. Third-party logos, photographs, player images, competition names and data must be used in accordance with the relevant provider terms and intellectual-property rules.
 
-Photographs are sourced from Unsplash and credited on the relevant pages. Football data is supplied by the configured provider. The operator must ensure any use of third-party logos, photographs, player images, competition names and data complies with applicable provider terms and intellectual-property rules.
-
-The privacy policy, terms and contact details are starter drafts and must be reviewed and completed before the website is treated as a fully launched commercial service.
+The privacy policy, terms and contact details are starter content and should be reviewed before a commercial launch.
