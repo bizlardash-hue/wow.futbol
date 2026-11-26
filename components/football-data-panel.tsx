@@ -33,7 +33,7 @@ export function FootballDataPanel({ mode, league = 39, season = 2026 }: Props) {
   }, [mode, league, season]);
 
   if (loading) return <div className="feed-state"><span className="loader-dot" /> Loading verified football data…</div>;
-  if (!configured) return <div className="api-setup compact"><strong>Connect football data to activate this section.</strong><p>Add <code>API_FOOTBALL_KEY</code> in Vercel Environment Variables and redeploy.</p><a href="https://www.api-football.com/" target="_blank" rel="noreferrer">Get API access ↗</a></div>;
+  if (!configured) return <div className="api-setup compact"><strong>Connect football data to activate this section.</strong><p>Add the <code>API_FOOTBALL_KEY</code> secret in Cloudflare Worker settings, then redeploy.</p><a href="https://www.api-football.com/" target="_blank" rel="noreferrer">Get API access ↗</a></div>;
   if (message) return <div className="feed-state feed-error">{message}</div>;
 
   if (mode === "standings") {
