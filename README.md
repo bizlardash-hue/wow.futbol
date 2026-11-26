@@ -69,7 +69,7 @@ Cloudflare Workers Builds settings:
 - Production branch: `main`
 - Root directory: `/`
 - Build command: `npx opennextjs-cloudflare build`
-- Deploy command: `npx opennextjs-cloudflare deploy --keep-vars`
+- Deploy command: `npx opennextjs-cloudflare deploy -- --keep-vars`
 
 The worker configuration is in `wrangler.jsonc`. The build output in `.open-next` is generated during deployment and must not be committed.
 
