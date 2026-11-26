@@ -17,5 +17,5 @@ jobs:
           node-version: 22
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Build Next.js application
-        run: npm run build
+      - name: Build Next.js application for Cloudflare Workers
+        run: npm run build:cloudflare
