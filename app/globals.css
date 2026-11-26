@@ -758,3 +758,33 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   .directory-cta-icon { width: 47px; height: 47px; font-size: 20px; }
   .directory-cta strong { font-size: 22px; }
 }
+
+
+/* Global competition catalogue */
+.competition-directory-live { margin-top: 28px; }
+.competition-directory-toolbar { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 24px; }
+.competition-directory-toolbar h2 { margin: 12px 0 8px; color: var(--ink); font: 700 clamp(32px,4vw,48px)/1 var(--font-display); letter-spacing: -.07em; }
+.competition-directory-toolbar h2 em { color: #648d35; font-style: normal; }
+.competition-directory-toolbar p { max-width: 540px; margin: 0; color: #718076; font-size: 12px; line-height: 1.75; }
+.competition-search { width: min(390px, 100%); }
+.competition-search label { display: block; margin-bottom: 8px; color: #65746a; font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.competition-search > div { display: flex; border: 1px solid #dce2d8; background: #fff; }
+.competition-search input { min-width: 0; flex: 1; border: 0; outline: 0; padding: 13px 12px; color: var(--ink); background: transparent; font: 12px var(--font-body); }
+.competition-search button, .competition-load-more button { border: 0; padding: 0 16px; background: var(--ink); color: #fff; font-size: 9px; font-weight: 800; letter-spacing: .08em; cursor: pointer; }
+.competition-live-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+.competition-live-card { min-height: 104px; display: flex; align-items: center; gap: 15px; padding: 17px; border: 1px solid #e4e9e1; border-radius: 7px; background: #fff; transition: transform .18s ease,border-color .18s ease,box-shadow .18s ease; }
+.competition-live-card:hover { transform: translateY(-2px); border-color: #c4d3b7; box-shadow: 0 10px 25px rgba(14,34,22,.06); }
+.competition-live-logo { width: 52px; height: 52px; flex: 0 0 52px; display: grid; place-items: center; border-radius: 7px; background: #f4f6f1; }
+.competition-live-logo img { width: 38px; height: 38px; object-fit: contain; }
+.competition-live-logo b { color: #315b2c; font: 700 17px var(--font-display); }
+.competition-live-copy { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.competition-live-copy strong { overflow: hidden; color: var(--ink); font: 700 14px var(--font-display); text-overflow: ellipsis; white-space: nowrap; }
+.competition-live-copy small { overflow: hidden; color: #7c887e; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.competition-live-copy em { color: #608b36; font-size: 9px; font-style: normal; font-weight: 800; }
+.competition-load-more { display: flex; justify-content: center; align-items: center; gap: 14px; margin: 26px 0 10px; }
+.competition-load-more button { min-height: 42px; padding: 0 22px; background: #c8fa55; color: #102116; }
+.competition-load-more button:disabled { opacity: .6; cursor: wait; }
+.competition-load-more small,.competition-directory-note { color: #859187; font-size: 9px; }
+.competition-directory-note { margin-top: 18px; }
+@media(max-width:900px) { .competition-live-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .competition-directory-toolbar { align-items: flex-start; flex-direction: column; } .competition-search { width: 100%; } }
+@media(max-width:560px) { .competition-live-grid { grid-template-columns: 1fr; } .competition-live-card { min-height: 88px; padding: 13px; } .competition-live-logo { width: 44px; height: 44px; flex-basis: 44px; } }
