@@ -104,9 +104,9 @@ export function FixtureExplorer({ initialMode = "date", leagueId }: { initialMod
       {!loading && !configured && <div className="api-setup">
         <span className="api-setup-kicker">FOOTBALL DATA CONNECTION</span>
         <h3>Bring the match centre to life.</h3>
-        <p>Connect an API-Football key in Vercel to show verified live scores, fixtures, competition data and match events. Your key stays on the server and is never exposed in the browser.</p>
+        <p>Connect an API-Football key in Cloudflare Worker secrets to show verified live scores, fixtures, competition data and match events. Your key stays on the server and is never exposed in the browser.</p>
         <a href="https://www.api-football.com/" target="_blank" rel="noreferrer">Explore API-Football <span>↗</span></a>
-        <small>Vercel → Project Settings → Environment Variables → add <code>API_FOOTBALL_KEY</code>, then redeploy.</small>
+        <small>Cloudflare → Workers & Pages → wow-futbol → Settings → Variables and Secrets → add <code>API_FOOTBALL_KEY</code>, then redeploy.</small>
       </div>}
       {!loading && configured && message && <div className="feed-state feed-error">{message}</div>}
       {!loading && configured && !message && visible.length === 0 && <div className="feed-state"><strong>No matches in this view.</strong><span>Try another date or choose a different filter.</span></div>}
