@@ -3,26 +3,25 @@
 /.pnp
 .pnp.*
 
-# Next.js
+# Next.js and Cloudflare output
 /.next/
+/.open-next/
 /out/
-
-# production
+/.vercel
+/.wrangler
 /build
 
-# local environment
+# local environment and secrets
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
-
-# Vercel
-.vercel
+cloudflare-env.d.ts
 
 # editors and operating systems
 .DS_Store
